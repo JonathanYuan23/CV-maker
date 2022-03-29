@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from './components/Nav';
+import PersonalSection from './components/PersonalSection';
 import './styles/Reset.css';
 import './styles/App.css';
 
@@ -25,6 +26,7 @@ class App extends React.Component {
         return (
             <>
                 <Nav activeTab={activeTab} tabHandler={this.changeTab} />
+                <PersonalSection />
             </>
         );
     }

@@ -15,7 +15,7 @@
     --c-tertiary: rgb(121, 121, 144);
     --c-tertiary-lighter: rgba(121, 121, 144, 0.2);
 
-    --c-bg: rgba(255, 255, 255, 0.9);
+    --c-bg: rgb(255, 255, 255);
 
     /* 
         ==========
@@ -33,13 +33,13 @@ html {
 
 body {
     margin: 0;
+    padding: 64px 0px;
     background-color: var(--c-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body {
+html {
     height: 100%;
 }
 

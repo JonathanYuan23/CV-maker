@@ -3,7 +3,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 64px auto 0px;
+    margin: auto;
+    user-select: none;
 }
 
 #navbar * {
