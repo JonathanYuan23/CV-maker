@@ -60,12 +60,17 @@
     width: 130px;
     height: 40px;
     border: 2px solid var(--c-main);
-    border-radius: 6px;
+    border-radius: 5px;
     background-color: var(--c-bg);
     font-family: 'Inter', sans-serif;
-    font-weight: var(--f-bold);
+    font-weight: var(--f-medium);
     font-size: 15px;
     color: var(--c-main);
     cursor: pointer;
     transition: all 100ms ease-in-out;
+}
+
+#generate-pdf-btn:hover {
+    background-color: var(--c-main);
+    color: var(--c-bg);
 }

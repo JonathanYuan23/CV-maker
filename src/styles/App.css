@@ -6,8 +6,8 @@
            COLORS
         ============
     */
-    --c-main: rgb(103, 102, 226);
-    --c-main-lighter: rgba(103, 102, 226, 0.2);
+    --c-main: rgb(73, 71, 238);
+    --c-main-lighter: rgba(73, 71, 238, 0.2);
     --c-main-lightest: rgba(103, 102, 226, 0.05);
 
     --c-secondary: rgb(4, 4, 76);
