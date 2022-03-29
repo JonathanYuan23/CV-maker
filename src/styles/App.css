@@ -15,7 +15,8 @@
     --c-tertiary: rgb(121, 121, 144);
     --c-tertiary-lighter: rgba(121, 121, 144, 0.2);
 
-    --c-bg: rgb(255, 255, 255);
+    --c-bg: rgb(247, 247, 247);
+    --c-bg-lighter: rgb(253, 253, 253);
 
     /* 
         ==========
@@ -46,4 +47,21 @@ html {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
+}
+
+.card-section {
+    box-sizing: border-box;
+    position: relative;
+    width: 623px;
+    background-color: var(--c-bg-lighter);
+    border-radius: 25px;
+    box-shadow: 0px 7px 30px -10px rgba(150, 170, 180, 0.5);
+    padding: 64px 48px;
+    margin: 72px auto 0px;
+}
+
+.card-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 }

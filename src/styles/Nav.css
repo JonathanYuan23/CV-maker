@@ -56,8 +56,8 @@
     width: 130px;
     height: 40px;
     border: 2px solid var(--c-main);
-    border-radius: 5px;
-    background-color: var(--c-bg);
+    border-radius: 6px;
+    background-color: var(--c-bg-lighter);
     font-family: 'Inter', sans-serif;
     font-weight: var(--f-medium);
     font-size: 15px;
@@ -68,5 +68,5 @@
 
 #generate-pdf-btn:hover {
     background-color: var(--c-main);
-    color: var(--c-bg);
+    color: var(--c-bg-lighter);
 }

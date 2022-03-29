@@ -5,10 +5,6 @@
     justify-content: space-between;
 }
 
-.input-container:not(:first-child) {
-    margin-top: 32px;
-}
-
 .input-container span {
     color: var(--c-tertiary);
     font-weight: var(--f-regular);

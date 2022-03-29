@@ -1,6 +1,5 @@
 import React from 'react';
 import InputContainer from './InputContainer';
-import '../styles/PersonalSection.css';
 
 class PersonalSection extends React.Component {
     // eslint-disable-next-line no-useless-constructor
@@ -9,24 +8,27 @@ class PersonalSection extends React.Component {
     }
     render() {
         return (
-            <div id="personal-section">
+            <div id="personal-section" className={'card-section'}>
                 <form>
-                    <InputContainer inputFor="NAME" placeholder="First Last" />
                     <InputContainer
-                        inputFor="PROFESSION"
-                        placeholder="Software Engineer"
+                        inputFor={'NAME'}
+                        placeholder={'First Last'}
                     />
                     <InputContainer
-                        inputFor="EMAIL"
-                        placeholder="xyz@gmail.com"
+                        inputFor={'PROFESSION'}
+                        placeholder={'Software Engineer'}
                     />
                     <InputContainer
-                        inputFor="PHONE NUMBER"
-                        placeholder="1-234-567-890"
+                        inputFor={'EMAIL'}
+                        placeholder={'xyz@gmail.com'}
                     />
                     <InputContainer
-                        inputFor="WEBSITE"
-                        placeholder="github.com/xyz"
+                        inputFor={'PHONE NUMBER'}
+                        placeholder={'1-234-567-890'}
+                    />
+                    <InputContainer
+                        inputFor={'WEBSITE'}
+                        placeholder={'github.com/xyz'}
                     />
                 </form>
             </div>

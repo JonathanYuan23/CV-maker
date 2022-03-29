@@ -7,7 +7,38 @@ class EducationSection extends React.Component {
         super(props);
     }
     render() {
-        return <div></div>;
+        return (
+            <div id="education-section" className={'card-section'}>
+                <form>
+                    <InputContainer
+                        inputFor={'DEGREE'}
+                        placeholder={'BSc. Honours CS'}
+                    />
+                    <InputContainer
+                        inputFor={'INSTITUTION'}
+                        placeholder={'UWaterloo'}
+                    />
+                    <InputContainer
+                        inputFor={'LOCATION'}
+                        placeholder={'Waterloo, Ontario'}
+                    />
+                    <InputContainer
+                        inputFor={'START DATE'}
+                        placeholder={'2022'}
+                    />
+                    <InputContainer
+                        inputFor={'END DATE'}
+                        placeholder={'Present'}
+                    />
+                    <InputContainer
+                        inputFor={'DESCRIPTION'}
+                        placeholder={
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor.'
+                        }
+                    />
+                </form>
+            </div>
+        );
     }
 }
 

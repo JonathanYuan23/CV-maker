@@ -7,7 +7,20 @@ class SkillsSection extends React.Component {
         super(props);
     }
     render() {
-        return <div></div>;
+        return (
+            <div id="skills-section" className={'card-section'}>
+                <form>
+                    <InputContainer
+                        inputFor={'TITLE'}
+                        placeholder={'Languages'}
+                    />
+                    <InputContainer
+                        inputFor={'DESCRIPTION'}
+                        placeholder={'Java, C++, Python'}
+                    />
+                </form>
+            </div>
+        );
     }
 }
 
