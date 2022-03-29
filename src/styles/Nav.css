@@ -1,0 +1,71 @@
+#navbar {
+    width: 655px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 64px auto 0px;
+}
+
+#navbar * {
+    display: inline-block;
+}
+
+/* 
+    ===========
+       LINKS
+    ===========
+*/
+
+#nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.tab-link {
+    color: var(--c-secondary);
+    font-size: 18px;
+    font-weight: var(--f-medium);
+    cursor: pointer;
+    transition: color 100ms ease-in-out;
+}
+
+.tab-link:hover {
+    color: var(--c-main);
+}
+
+.tab-link.active-tab {
+    color: var(--c-main);
+}
+
+/* 
+    ==============
+       DIVIDERS
+    ==============
+*/
+
+.link-divider {
+    width: 1px;
+    height: 25px;
+    background-color: var(--c-main-lighter);
+}
+
+/* 
+    ============
+       BUTTON
+    ============
+*/
+
+#generate-pdf-btn {
+    width: 130px;
+    height: 40px;
+    border: 2px solid var(--c-main);
+    border-radius: 6px;
+    background-color: var(--c-bg);
+    font-family: 'Inter', sans-serif;
+    font-weight: var(--f-bold);
+    font-size: 15px;
+    color: var(--c-main);
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+}
