@@ -23,10 +23,10 @@ class InputContainer extends React.Component {
         const { value } = this.state;
 
         return (
-            <label htmlFor={inputFor} class={'input-container'}>
+            <label htmlFor={inputFor} className={'input-container'}>
                 <span>{inputFor}</span>
                 <input
-                    type="text"
+                    type={'text'}
                     id={inputFor}
                     value={value}
                     onChange={this.handleChange}

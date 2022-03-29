@@ -18,7 +18,6 @@ class Nav extends React.Component {
                     >
                         Personal
                     </li>
-                    <div className={'link-divider'}></div>
                     <li
                         className={`${
                             activeTab === 'Work' ? 'active-tab ' : ''
@@ -27,7 +26,6 @@ class Nav extends React.Component {
                     >
                         Work
                     </li>
-                    <div className={'link-divider'}></div>
                     <li
                         className={`${
                             activeTab === 'Education' ? 'active-tab ' : ''
@@ -36,7 +34,6 @@ class Nav extends React.Component {
                     >
                         Education
                     </li>
-                    <div className={'link-divider'}></div>
                     <li
                         className={`${
                             activeTab === 'Skills' ? 'active-tab ' : ''
