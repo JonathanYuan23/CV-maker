@@ -6,16 +6,22 @@ class InputContainer extends React.Component {
         super(props);
 
         this.state = {
-            value: props.placeholder,
+            value: props.value
         };
 
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(e) {
+        const value = e.target.value;
+
         this.setState({
-            value: e.target.value,
+            value: value
         });
+
+        // pass input value up to form container
+        const { handleChange, inputFor } = this.props;
+        handleChange(inputFor, value);
     }
 
     render() {
@@ -24,7 +30,7 @@ class InputContainer extends React.Component {
 
         return (
             <label htmlFor={inputFor} className={'input-container'}>
-                <span>{inputFor}</span>
+                <span>{inputFor.toUpperCase()}</span>
                 <input
                     type={'text'}
                     id={inputFor}
