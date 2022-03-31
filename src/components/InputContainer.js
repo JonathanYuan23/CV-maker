@@ -12,6 +12,13 @@ class InputContainer extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    // this is required since the component uses derived state
+    static getDerivedStateFromProps(props, state) {
+        return {
+            value: props.value
+        };
+    }
+
     handleChange(e) {
         const value = e.target.value;
 

@@ -1,6 +1,15 @@
 import React from 'react';
 import InputContainer from './InputContainer';
+import FormList from './FormList';
 import { getForms, setForms } from '../utils/localStorage';
+import {
+    handleChange,
+    showList,
+    hideList,
+    addForm,
+    deleteForm,
+    changeForm
+} from '../utils/callbacks';
 import uniqid from 'uniqid';
 
 class EducationSection extends React.Component {
@@ -17,7 +26,8 @@ class EducationSection extends React.Component {
 
             this.state = {
                 forms: [form],
-                form: form
+                form: form,
+                formListState: 'inactive'
             };
 
             setForms('Education', this.state);
@@ -25,42 +35,20 @@ class EducationSection extends React.Component {
             this.state = stateStore;
         }
 
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    // when any input is changed, update state, and save it to local storage
-    handleChange(formField, value) {
-        let { form, forms } = this.state;
-
-        // current form is always at front of forms array
-        form[formField] = value;
-        forms[0] = form;
-
-        this.setState({
-            forms: forms,
-            form: form
-        });
-
-        setForms('Education', this.state);
+        // bind event handlers
+        this.handleChange = handleChange.bind(this);
+        this.showList = showList.bind(this);
+        this.hideList = hideList.bind(this);
+        this.addForm = addForm.bind(this);
+        this.changeForm = changeForm.bind(this);
+        this.deleteForm = deleteForm.bind(this);
     }
 
     render() {
-        const { defaultForm } = this.props;
-        const { forms } = this.state;
-
-        if (!forms.length) {
-            let form = Object.assign({}, defaultForm, { id: uniqid() });
-
-            this.setState({
-                forms: forms.concat(form),
-                form: form
-            });
-        }
-
-        const { form } = this.state;
+        const { form, forms, formListState } = this.state;
 
         return (
-            <div id="education-section" className={'card-section'}>
+            <div id={'education-section'} className={'card-section'}>
                 <form>
                     <InputContainer
                         inputFor={'degree'}
@@ -93,6 +81,18 @@ class EducationSection extends React.Component {
                         handleChange={this.handleChange}
                     />
                 </form>
+                <FormList
+                    form={form}
+                    forms={forms}
+                    formListState={formListState}
+                    addForm={this.addForm}
+                    deleteForm={this.deleteForm}
+                    changeForm={this.changeForm}
+                    showList={this.showList}
+                    hideList={this.hideList}
+                    formPropertyMain={'institution'}
+                    formPropertySecondary={'degree'}
+                />
             </div>
         );
     }

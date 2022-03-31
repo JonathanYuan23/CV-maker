@@ -42,11 +42,11 @@ class PersonalSection extends React.Component {
         const { form } = this.state;
 
         return (
-            <div id="personal-section" className={'card-section'}>
+            <div id={'personal-section'} className={'card-section'}>
                 <form>
                     <InputContainer
                         inputFor={'name'}
-                        value={'First Last'}
+                        value={form['name']}
                         handleChange={this.handleChange}
                     />
                     <InputContainer
@@ -54,7 +54,11 @@ class PersonalSection extends React.Component {
                         value={form['profession']}
                         handleChange={this.handleChange}
                     />
-                    <InputContainer inputFor={'email'} value={form['email']} />
+                    <InputContainer
+                        inputFor={'email'}
+                        value={form['email']}
+                        handleChange={this.handleChange}
+                    />
                     <InputContainer
                         inputFor={'phone number'}
                         value={form['phone number']}
