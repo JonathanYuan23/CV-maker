@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/CV-maker/static/css/main.cd946c17.css",
+    "main.js": "/CV-maker/static/js/main.4a6ac747.js",
+    "index.html": "/CV-maker/index.html",
+    "main.cd946c17.css.map": "/CV-maker/static/css/main.cd946c17.css.map",
+    "main.4a6ac747.js.map": "/CV-maker/static/js/main.4a6ac747.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cd946c17.css",
+    "static/js/main.4a6ac747.js"
+  ]
+}
