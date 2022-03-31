@@ -17,8 +17,10 @@ class WorkSection extends React.Component {
     constructor(props) {
         super(props);
 
+        this.storageKey = 'Work';
         const { defaultForm } = this.props;
-        const stateStore = getForms('Work');
+
+        const stateStore = getForms(this.storageKey);
 
         // if this is the first time the form is rendered, render the default form
         if (!stateStore) {
@@ -30,7 +32,7 @@ class WorkSection extends React.Component {
                 formListState: 'inactive'
             };
 
-            setForms('Work', this.state);
+            setForms(this.storageKey, this.state);
         } else {
             this.state = stateStore;
         }
@@ -92,6 +94,7 @@ class WorkSection extends React.Component {
                     hideList={this.hideList}
                     formPropertyMain={'company'}
                     formPropertySecondary={'title'}
+                    addPrompt={'work'}
                 />
             </div>
         );

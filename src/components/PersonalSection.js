@@ -7,8 +7,10 @@ class PersonalSection extends React.Component {
     constructor(props) {
         super(props);
 
+        this.storageKey = 'Personal';
         const { defaultForm } = this.props;
-        const stateStore = getForms('Personal');
+
+        const stateStore = getForms(this.storageKey);
 
         // if this is the first time the form is rendered, render the default form
         if (!stateStore) {
@@ -18,7 +20,7 @@ class PersonalSection extends React.Component {
                 form: form
             };
 
-            setForms('Personal', this.state);
+            setForms(this.storageKey, this.state);
         } else {
             this.state = stateStore;
         }
@@ -35,7 +37,7 @@ class PersonalSection extends React.Component {
             form: form
         });
 
-        setForms('Personal', this.state);
+        setForms(this.storageKey, this.state);
     }
 
     render() {

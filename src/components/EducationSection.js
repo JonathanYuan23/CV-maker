@@ -17,8 +17,10 @@ class EducationSection extends React.Component {
     constructor(props) {
         super(props);
 
+        this.storageKey = 'Education';
         const { defaultForm } = this.props;
-        const stateStore = getForms('Education');
+
+        const stateStore = getForms(this.storageKey);
 
         // if this is the first time the form is rendered, render the default form
         if (!stateStore) {
@@ -30,7 +32,7 @@ class EducationSection extends React.Component {
                 formListState: 'inactive'
             };
 
-            setForms('Education', this.state);
+            setForms(this.storageKey, this.state);
         } else {
             this.state = stateStore;
         }
@@ -92,6 +94,7 @@ class EducationSection extends React.Component {
                     hideList={this.hideList}
                     formPropertyMain={'institution'}
                     formPropertySecondary={'degree'}
+                    addPrompt={'education'}
                 />
             </div>
         );

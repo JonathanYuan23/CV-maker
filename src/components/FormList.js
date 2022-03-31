@@ -19,7 +19,8 @@ class FormList extends React.Component {
             showList,
             hideList,
             formPropertyMain,
-            formPropertySecondary
+            formPropertySecondary,
+            addPrompt
         } = this.props;
 
         let formList;
@@ -58,7 +59,7 @@ class FormList extends React.Component {
                         key={uniqid()}
                         onClick={addForm}
                     >
-                        <span>{'Add work'}</span>
+                        <span>{`Add ${addPrompt}`}</span>
                         <AddIcon />
                     </li>
                 </>
