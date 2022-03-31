@@ -2,6 +2,8 @@ import React from 'react';
 import InputContainer from './InputContainer';
 import { getForms, setForms } from '../utils/localStorage';
 import uniqid from 'uniqid';
+import AddIcon from './AddIcon';
+import DeleteIcon from './DeleteIcon';
 
 class WorkSection extends React.Component {
     // eslint-disable-next-line no-useless-constructor
@@ -17,7 +19,8 @@ class WorkSection extends React.Component {
 
             this.state = {
                 forms: [form],
-                form: form
+                form: form,
+                formListState: 'inactive'
             };
 
             setForms('Work', this.state);
@@ -26,6 +29,9 @@ class WorkSection extends React.Component {
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.showList = this.showList.bind(this);
+        this.hideList = this.hideList.bind(this);
+        this.addForm = this.addForm.bind(this);
     }
 
     // when any input is changed, update state, and save it to local storage
@@ -44,6 +50,35 @@ class WorkSection extends React.Component {
         setForms('Work', this.state);
     }
 
+    showList() {
+        this.setState({
+            formListState: 'active'
+        });
+    }
+
+    hideList() {
+        this.setState({
+            formListState: 'inactive'
+        });
+    }
+
+    addForm() {
+        const { defaultForm } = this.props;
+        const { forms } = this.state;
+
+        let newForm = Object.assign({}, defaultForm, { id: uniqid() });
+        let newForms = forms;
+        newForms.unshift(newForm);
+
+        this.setState({
+            forms: newForms,
+            form: newForm,
+            formListState: 'inactive'
+        });
+
+        setForms('Work', this.state);
+    }
+
     render() {
         const { defaultForm } = this.props;
         const { forms } = this.state;
@@ -57,7 +92,38 @@ class WorkSection extends React.Component {
             });
         }
 
-        const { form } = this.state;
+        const { form, formListState } = this.state;
+        let formList;
+
+        // if list display is inactive, show only the current form
+        if (formListState === 'inactive') {
+            formList = (
+                <li className={'form-list-item'} key={form['id']}>
+                    <span>{`${form['company']} ${form['title']}`}</span>
+                    <DeleteIcon />
+                </li>
+            );
+        } else if (formListState === 'active') {
+            formList = (
+                <>
+                    {forms.map(form => {
+                        return (
+                            <li className={'form-list-item'} key={form['id']}>
+                                <span>{`${form['company']} ${form['title']}`}</span>
+                                <DeleteIcon />
+                            </li>
+                        );
+                    })}
+                    <li
+                        className={'form-list-item add-item'}
+                        onClick={this.addForm}
+                    >
+                        <span>{'Add work'}</span>
+                        <AddIcon />
+                    </li>
+                </>
+            );
+        }
 
         return (
             <div id="work-section" className={'card-section'}>
@@ -93,6 +159,13 @@ class WorkSection extends React.Component {
                         handleChange={this.handleChange}
                     />
                 </form>
+                <ul
+                    className={'form-list'}
+                    onMouseEnter={this.showList}
+                    onMouseLeave={this.hideList}
+                >
+                    {formList}
+                </ul>
             </div>
         );
     }
