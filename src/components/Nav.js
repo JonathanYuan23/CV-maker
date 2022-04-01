@@ -1,4 +1,5 @@
 import React from 'react';
+import TabLink from './TabLink';
 import generatePDF from '../utils/generatePDF';
 import '../styles/Nav.css';
 
@@ -11,38 +12,26 @@ class Nav extends React.Component {
         return (
             <nav id={'navbar'}>
                 <ul id={'nav-links'}>
-                    <li
-                        className={`${
-                            activeTab === 'Personal' ? 'active-tab ' : ''
-                        }tab-link`}
-                        onClick={tabHandler}
-                    >
-                        Personal
-                    </li>
-                    <li
-                        className={`${
-                            activeTab === 'Work' ? 'active-tab ' : ''
-                        }tab-link`}
-                        onClick={tabHandler}
-                    >
-                        Work
-                    </li>
-                    <li
-                        className={`${
-                            activeTab === 'Education' ? 'active-tab ' : ''
-                        }tab-link`}
-                        onClick={tabHandler}
-                    >
-                        Education
-                    </li>
-                    <li
-                        className={`${
-                            activeTab === 'Skills' ? 'active-tab ' : ''
-                        }tab-link`}
-                        onClick={tabHandler}
-                    >
-                        Skills
-                    </li>
+                    <TabLink
+                        activeTab={activeTab}
+                        tabHandler={tabHandler}
+                        linkText={'Personal'}
+                    />
+                    <TabLink
+                        activeTab={activeTab}
+                        tabHandler={tabHandler}
+                        linkText={'Work'}
+                    />
+                    <TabLink
+                        activeTab={activeTab}
+                        tabHandler={tabHandler}
+                        linkText={'Education'}
+                    />
+                    <TabLink
+                        activeTab={activeTab}
+                        tabHandler={tabHandler}
+                        linkText={'Skills'}
+                    />
                 </ul>
                 <button id={'generate-pdf-btn'} onClick={generatePDF}>
                     Generate pdf
