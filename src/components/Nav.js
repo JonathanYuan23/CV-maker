@@ -1,4 +1,5 @@
 import React from 'react';
+import generatePDF from '../utils/generatePDF';
 import '../styles/Nav.css';
 
 class Nav extends React.Component {
@@ -43,7 +44,9 @@ class Nav extends React.Component {
                         Skills
                     </li>
                 </ul>
-                <button id="generate-pdf-btn">Generate pdf</button>
+                <button id={'generate-pdf-btn'} onClick={generatePDF}>
+                    Generate pdf
+                </button>
             </nav>
         );
     }
