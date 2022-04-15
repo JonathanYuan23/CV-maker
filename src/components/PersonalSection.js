@@ -9,7 +9,6 @@ class PersonalSection extends React.Component {
 
         this.storageKey = 'Personal';
         const { defaultForm } = this.props;
-
         const stateStore = getForms(this.storageKey);
 
         // if this is the first time the form is rendered, render the default form

@@ -54,7 +54,6 @@ function addForm() {
 function deleteForm(e) {
     e.stopPropagation();
     const id = e.currentTarget.parentNode.getAttribute('data-key');
-
     const { defaultForm } = this.props;
     const { form, forms } = this.state;
 
@@ -85,7 +84,6 @@ function deleteForm(e) {
 
 function changeForm(e) {
     const id = e.currentTarget.getAttribute('data-key');
-
     const { forms } = this.state;
 
     // destructure the form that is selected, and move it to the front of the forms array
