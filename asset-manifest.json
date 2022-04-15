@@ -1,13 +1,16 @@
 {
   "files": {
-    "main.css": "/CV-maker/static/css/main.cd946c17.css",
-    "main.js": "/CV-maker/static/js/main.7435c60a.js",
+    "main.css": "/CV-maker/static/css/main.e274ba46.css",
+    "main.js": "/CV-maker/static/js/main.afb4bc8e.js",
+    "static/media/Raleway-Bold.ttf": "/CV-maker/static/media/Raleway-Bold.d1a96e2aa6257c864d4d.ttf",
+    "static/media/Lato-Regular.ttf": "/CV-maker/static/media/Lato-Regular.9d883d540ee2b4de8024.ttf",
+    "static/media/Lato-Bold.ttf": "/CV-maker/static/media/Lato-Bold.636be8de934918e38ed9.ttf",
     "index.html": "/CV-maker/index.html",
-    "main.cd946c17.css.map": "/CV-maker/static/css/main.cd946c17.css.map",
-    "main.7435c60a.js.map": "/CV-maker/static/js/main.7435c60a.js.map"
+    "main.e274ba46.css.map": "/CV-maker/static/css/main.e274ba46.css.map",
+    "main.afb4bc8e.js.map": "/CV-maker/static/js/main.afb4bc8e.js.map"
   },
   "entrypoints": [
-    "static/css/main.cd946c17.css",
-    "static/js/main.7435c60a.js"
+    "static/css/main.e274ba46.css",
+    "static/js/main.afb4bc8e.js"
   ]
 }
