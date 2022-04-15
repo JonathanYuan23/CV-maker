@@ -92,11 +92,20 @@ const styles = StyleSheet.create({
 // Create Document Component
 const PDFDocument = ({ cv }) => {
     const personalSection = () => {
+        const { personal } = cv;
+        const {
+            email,
+            name,
+            'phone number': phoneNumber,
+            profession,
+            website
+        } = personal;
+        const [firstName, lastName] = name.split(' ');
         return (
             <View style={styles.section}>
                 <View style={styles.sectionHeader}>
-                    <Text style={{ fontSize: 21 }}>Jonathan</Text>
-                    <Text style={{ fontSize: 21 }}>Yuan</Text>
+                    <Text style={{ fontSize: 21 }}>{firstName}</Text>
+                    <Text style={{ fontSize: 21 }}>{lastName}</Text>
                     <Text
                         style={{
                             marginTop: 4,
@@ -104,7 +113,7 @@ const PDFDocument = ({ cv }) => {
                             color: 'rgb(242, 81, 27)'
                         }}
                     >
-                        Software Engineer
+                        {profession}
                     </Text>
                 </View>
                 <View style={styles.sectionContent}>
@@ -117,7 +126,7 @@ const PDFDocument = ({ cv }) => {
                     <Text
                         style={[styles.contentTextLarge, styles.personalName]}
                     >
-                        Jonathan Yuan
+                        {name}
                     </Text>
                     <Text
                         style={[
@@ -125,7 +134,7 @@ const PDFDocument = ({ cv }) => {
                             styles.personalContact
                         ]}
                     >
-                        1-234-567-890
+                        {phoneNumber}
                     </Text>
                     <Text
                         style={[
@@ -133,7 +142,7 @@ const PDFDocument = ({ cv }) => {
                             styles.personalContact
                         ]}
                     >
-                        xyz@gmail.com
+                        {email}
                     </Text>
                     <Text
                         style={[
@@ -141,7 +150,7 @@ const PDFDocument = ({ cv }) => {
                             styles.personalContact
                         ]}
                     >
-                        github.com/xyz
+                        {website}
                     </Text>
                 </View>
             </View>
@@ -149,6 +158,7 @@ const PDFDocument = ({ cv }) => {
     };
 
     const skillsSection = () => {
+        const { skills } = cv;
         return (
             <View style={styles.section}>
                 <View style={styles.sectionHeader}>
@@ -167,26 +177,25 @@ const PDFDocument = ({ cv }) => {
                             styles.sectionDividerLarge
                         ]}
                     ></View>
-                    <View style={styles.contentBlock}>
-                        <Text style={styles.contentTextLarge}>Languages:</Text>
-                        <Text style={styles.contentTextMedium}>
-                            Java, C++, Python
-                        </Text>
-                    </View>
-                    <View style={styles.contentBlock}>
-                        <Text style={styles.contentTextLarge}>
-                            Technologies:
-                        </Text>
-                        <Text style={styles.contentTextMedium}>
-                            React, Redux
-                        </Text>
-                    </View>
+                    {skills.map(skill => {
+                        return (
+                            <View key={skill.id} style={styles.contentBlock}>
+                                <Text style={styles.contentTextLarge}>
+                                    {`${skill.title}: `}
+                                </Text>
+                                <Text style={styles.contentTextMedium}>
+                                    {skill.description}
+                                </Text>
+                            </View>
+                        );
+                    })}
                 </View>
             </View>
         );
     };
 
     const workSection = () => {
+        const { work } = cv;
         return (
             <View style={styles.section}>
                 <View style={styles.sectionHeader}>
@@ -205,36 +214,28 @@ const PDFDocument = ({ cv }) => {
                             styles.sectionDividerLarge
                         ]}
                     ></View>
-                    <View style={styles.contentBlock}>
-                        <Text style={styles.contentTextLarge}>
-                            Waterloo - BSc. Honours CS
-                        </Text>
-                        <Text style={[styles.contentTextSmall]}>
-                            2022 - Present, Waterloo, Ontario
-                        </Text>
-                        <Text style={styles.contentTextMedium}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Duis porttitor.
-                        </Text>
-                    </View>
-                    <View style={styles.contentBlock}>
-                        <Text style={styles.contentTextLarge}>
-                            Nepean High School - Student
-                        </Text>
-                        <Text style={[styles.contentTextSmall]}>
-                            2018 - 2022, Ottawa, Ontario
-                        </Text>
-                        <Text style={styles.contentTextMedium}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Duis porttitor.
-                        </Text>
-                    </View>
+                    {work.map(work => {
+                        return (
+                            <View key={work.id} style={styles.contentBlock}>
+                                <Text style={styles.contentTextLarge}>
+                                    {`${work.company} - ${work.title}`}
+                                </Text>
+                                <Text style={[styles.contentTextSmall]}>
+                                    {`${work['start date']} - ${work['end date']}, ${work.location}`}
+                                </Text>
+                                <Text style={styles.contentTextMedium}>
+                                    {work.description}
+                                </Text>
+                            </View>
+                        );
+                    })}
                 </View>
             </View>
         );
     };
 
     const educationSection = () => {
+        const { education } = cv;
         return (
             <View style={styles.section}>
                 <View style={styles.sectionHeader}>
@@ -253,30 +254,24 @@ const PDFDocument = ({ cv }) => {
                             styles.sectionDividerLarge
                         ]}
                     ></View>
-                    <View style={styles.contentBlock}>
-                        <Text style={styles.contentTextLarge}>
-                            Google - Cloud Engineer
-                        </Text>
-                        <Text style={[styles.contentTextSmall]}>
-                            2018 - Present, San Francisco, California
-                        </Text>
-                        <Text style={styles.contentTextMedium}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Duis porttitor.
-                        </Text>
-                    </View>
-                    <View style={styles.contentBlock}>
-                        <Text style={styles.contentTextLarge}>
-                            Citadel - Quant
-                        </Text>
-                        <Text style={[styles.contentTextSmall]}>
-                            2017 - 2018, New York City
-                        </Text>
-                        <Text style={styles.contentTextMedium}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Duis porttitor.
-                        </Text>
-                    </View>
+                    {education.map(education => {
+                        return (
+                            <View
+                                key={education.id}
+                                style={styles.contentBlock}
+                            >
+                                <Text style={styles.contentTextLarge}>
+                                    {`${education.institution} - ${education.degree}`}
+                                </Text>
+                                <Text style={[styles.contentTextSmall]}>
+                                    {`${education['start date']} - ${education['end date']}, ${education.location}`}
+                                </Text>
+                                <Text style={styles.contentTextMedium}>
+                                    {education.description}
+                                </Text>
+                            </View>
+                        );
+                    })}
                 </View>
             </View>
         );

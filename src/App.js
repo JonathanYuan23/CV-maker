@@ -13,7 +13,7 @@ class App extends React.Component {
 
         this.defaultForms = {
             defaultPersonalForm: {
-                name: 'First Last',
+                name: 'Dan Abramov',
                 profession: 'Software Engineer',
                 email: 'xyz@gmail.com',
                 'phone number': '1-234-567-890',
@@ -21,7 +21,7 @@ class App extends React.Component {
             },
             defaultWorkForm: {
                 title: 'Software Engineer',
-                company: 'Google',
+                company: 'Facebook',
                 location: 'San Francisco',
                 'start date': '2019',
                 'end date': 'Present',
@@ -32,8 +32,8 @@ class App extends React.Component {
                 degree: 'BSc. Honours CS',
                 institution: 'UWaterloo',
                 location: 'Waterloo, Ontario',
-                'start date': '2022',
-                'end date': 'Present',
+                'start date': '2014',
+                'end date': '2019',
                 description:
                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor.'
             },

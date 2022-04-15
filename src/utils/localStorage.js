@@ -7,10 +7,17 @@ const setForms = (sectionName, sectionForms) => {
 };
 
 const getAllForms = () => {
-    const personal = JSON.parse(sessionStorage.getItem('Personal'));
-    const work = JSON.parse(sessionStorage.getItem('Work'));
-    const education = JSON.parse(sessionStorage.getItem('Education'));
-    const skills = JSON.parse(sessionStorage.getItem('Skills'));
+    let personal = JSON.parse(sessionStorage.getItem('Personal')).form;
+
+    let work = JSON.parse(sessionStorage.getItem('Work'));
+    work = work ? work.forms : [];
+
+    let education = JSON.parse(sessionStorage.getItem('Education'));
+    education = education ? education.forms : [];
+
+    let skills = JSON.parse(sessionStorage.getItem('Skills'));
+    skills = skills ? skills.forms : [];
+
     return Promise.resolve({
         personal,
         work,
