@@ -1,6 +1,6 @@
 # CV-maker
 
-App built with React which lets you customize and download your own CV. Currently only with forms for personal information, work, education and skills.
+App built with React and the React-PDF library which lets you customize and download your own CV. Currently only with forms for personal information, work, education and skills.
 
 [Live Demo](https://jonathanyuan900.github.io/CV-maker/) :point_left:
 
@@ -16,5 +16,4 @@ npm start
 ## Future improvements
 
 -   Add preview tab
--   Properly set up PDF generator
 -   Clean up polyfills (webpack 5 is a mess)
