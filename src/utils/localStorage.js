@@ -1,21 +1,21 @@
 const getForms = sectionName => {
-    return JSON.parse(sessionStorage.getItem(sectionName));
+    return JSON.parse(localStorage.getItem(sectionName));
 };
 
 const setForms = (sectionName, sectionForms) => {
-    sessionStorage.setItem(sectionName, JSON.stringify(sectionForms));
+    localStorage.setItem(sectionName, JSON.stringify(sectionForms));
 };
 
 const getAllForms = () => {
-    let personal = JSON.parse(sessionStorage.getItem('Personal')).form;
+    let personal = JSON.parse(localStorage.getItem('Personal')).form;
 
-    let work = JSON.parse(sessionStorage.getItem('Work'));
+    let work = JSON.parse(localStorage.getItem('Work'));
     work = work ? work.forms : [];
 
-    let education = JSON.parse(sessionStorage.getItem('Education'));
+    let education = JSON.parse(localStorage.getItem('Education'));
     education = education ? education.forms : [];
 
-    let skills = JSON.parse(sessionStorage.getItem('Skills'));
+    let skills = JSON.parse(localStorage.getItem('Skills'));
     skills = skills ? skills.forms : [];
 
     return Promise.resolve({
