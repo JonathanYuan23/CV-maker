@@ -12,6 +12,7 @@
         "browserify-zlib": "^0.2.0",
         "buffer": "^6.0.3",
         "file-saver": "^2.0.5",
+        "firebase": "^9.9.0",
         "process": "^0.11.10",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",
@@ -33,7 +34,14 @@
         "extends": [
             "react-app",
             "react-app/jest"
-        ]
+        ],
+        "plugins": [
+            "react-hooks"
+        ],
+        "rules": {
+            "react-hooks/rules-of-hooks": "error",
+            "react-hooks/exhaustive-deps": "warn"
+        }
     },
     "browserslist": {
         "production": [
@@ -48,6 +56,7 @@
         ]
     },
     "devDependencies": {
+        "eslint-plugin-react-hooks": "^4.4.0",
         "gh-pages": "^3.2.3"
     },
     "homepage": "http://jonathanyuan900.github.io/CV-maker"
