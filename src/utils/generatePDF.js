@@ -4,7 +4,7 @@ import { pdf } from '@react-pdf/renderer';
 import { PDFDocument } from './PDFDocument';
 
 const generatePDF = async () => {
-    const cv = await getAllForms();
+    const cv = getAllForms();
     const blob = await pdf(<PDFDocument cv={cv} />).toBlob();
     saveAs(blob, 'cv.pdf');
 };

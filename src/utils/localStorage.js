@@ -18,12 +18,12 @@ const getAllForms = () => {
     let skills = JSON.parse(localStorage.getItem('Skills'));
     skills = skills ? skills.forms : [];
 
-    return Promise.resolve({
+    return {
         personal,
         work,
         education,
         skills
-    });
+    };
 };
 
 export { getForms, setForms, getAllForms };

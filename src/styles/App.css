@@ -75,8 +75,8 @@ code {
     position: absolute;
     right: 32px;
     top: 24px;
-    border-radius: 6px;
     border: 1px solid var(--c-tertiary-lighter);
+    border-radius: 6px;
     padding: 8px 17px;
     background-color: var(--c-bg-lighter);
     cursor: pointer;
@@ -85,12 +85,77 @@ code {
     transition: all 100ms ease-in-out;
 }
 
-#profile-btn img {
+#profile-pic-lg {
+    border-radius: 50%;
+}
+
+#profile-pic-sm {
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
 }
 
 #profile-btn:hover {
     background-color: var(--c-tertiary-lighter);
+}
+
+#caret-icon,
+#save-icon,
+#logout-icon {
+    fill: var(--c-secondary);
+}
+
+#caret-icon {
+    transition: all 150ms ease-in-out;
+}
+
+#profile-btn:hover #caret-icon {
+    transform: translate(0, 4px);
+}
+
+#profile-tooltip {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 16px;
+    top: 96px;
+    width: 248px;
+    border: 1px solid var(--c-tertiary-lighter);
+    border-radius: 6px;
+    padding: 8px 0;
+    background-color: var(--c-bg-lighter);
+    box-shadow: 0px 7px 30px -10px rgba(150, 170, 180, 0.5);
+}
+
+.profile-tooltip-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.profile-tooltip-item:not(#user-email):hover {
+    background-color: var(--c-main-lightest);
+}
+
+#user-email {
+    cursor: default;
+}
+
+#save-btn,
+#logout-btn {
+    cursor: pointer;
+}
+
+.profile-tooltip-item span {
+    color: var(--c-secondary);
+    line-height: 14px;
+    font-size: 12px;
+    overflow: hidden;
 }
 
 .card-section {
