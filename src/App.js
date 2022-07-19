@@ -4,8 +4,25 @@ import PersonalSection from './components/PersonalSection';
 import WorkSection from './components/WorkSection';
 import EducationSection from './components/EducationSection';
 import SkillsSection from './components/SkillsSection';
+import { ReactComponent as CaretIcon } from './icons/Caret down.svg';
 import './styles/Reset.css';
 import './styles/App.css';
+
+function LogInButton() {
+    return <button id={'log-in-btn'}>Log in</button>;
+}
+
+function ProfileButton() {
+    return (
+        <button id={'profile-btn'}>
+            <img
+                src="https://lh3.googleusercontent.com/ogw/AOh-ky1_8Jx5lw1cJqqWW7GwA5tV7ARfl_Xo6vN7YLXx=s32-c-mo"
+                alt="User profile"
+            />
+            <CaretIcon />
+        </button>
+    );
+}
 
 class App extends React.Component {
     constructor() {
@@ -84,6 +101,7 @@ class App extends React.Component {
         }
         return (
             <>
+                <ProfileButton />
                 <Nav activeTab={activeTab} tabHandler={this.tabHandler} />
                 {page}
             </>

@@ -12,10 +12,9 @@
 }
 
 #generate-pdf-btn {
-    width: 130px;
-    height: 40px;
     border: 2px solid var(--c-main);
     border-radius: 4px;
+    padding: 9px 16px;
     background-color: var(--c-bg-lighter);
     font-family: 'Inter', sans-serif;
     font-weight: var(--f-medium);

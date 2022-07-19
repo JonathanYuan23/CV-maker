@@ -19,6 +19,3 @@ ReactDOM.render(
 
 const app = initializeApp(getFirebaseConfig());
 initFirebaseAuth();
-
-const root = document.querySelector('body');
-root.addEventListener('click', signInUser);

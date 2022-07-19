@@ -33,6 +33,7 @@ html {
 }
 
 body {
+    position: relative;
     margin: 0;
     padding: 64px 0px;
     background-color: var(--c-bg);
@@ -47,6 +48,49 @@ html {
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
+}
+
+#log-in-btn {
+    position: absolute;
+    right: 32px;
+    top: 24px;
+    border-radius: 6px;
+    border: none;
+    padding: 11px 20px;
+    background-color: var(--c-main);
+    font-family: 'Inter', sans-serif;
+    font-weight: var(--f-medium);
+    font-size: 16px;
+    color: var(--c-bg-lighter);
+    cursor: pointer;
+    transition: all 100ms ease-in-out;
+}
+
+#log-in-btn:hover {
+    transform: scale(1.03);
+}
+
+#profile-btn {
+    display: flex;
+    position: absolute;
+    right: 32px;
+    top: 24px;
+    border-radius: 6px;
+    border: 1px solid var(--c-tertiary-lighter);
+    padding: 8px 17px;
+    background-color: var(--c-bg-lighter);
+    cursor: pointer;
+    align-items: center;
+    gap: 8px;
+    transition: all 100ms ease-in-out;
+}
+
+#profile-btn img {
+    border-radius: 50%;
+}
+
+#profile-btn:hover {
+    background-color: var(--c-tertiary-lighter);
 }
 
 .card-section {
