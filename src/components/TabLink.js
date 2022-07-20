@@ -2,9 +2,6 @@ import React from 'react';
 import '../styles/TabLink.css';
 
 class TabLink extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         const { activeTab, tabHandler, linkText } = this.props;
         return (

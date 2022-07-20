@@ -4,54 +4,84 @@ import PersonalSection from './components/PersonalSection';
 import WorkSection from './components/WorkSection';
 import EducationSection from './components/EducationSection';
 import SkillsSection from './components/SkillsSection';
+
 import { ReactComponent as CaretIcon } from './icons/Caret down.svg';
 import { ReactComponent as SaveIcon } from './icons/Save.svg';
 import { ReactComponent as LogoutIcon } from './icons/Logout.svg';
+
+import { getFirebaseConfig } from './firebase/firebase-config';
+import { initializeApp } from 'firebase/app';
+import {
+    signInUser,
+    signOutUser,
+    initFirebaseAuth,
+    getUserPhotoURL,
+    getUserEmail
+} from './firebase/authentication';
+
 import './styles/Reset.css';
 import './styles/App.css';
 
-function LogInButton() {
-    return <button id={'log-in-btn'}>Log in</button>;
+class LogInButton extends React.Component {
+    render() {
+        const { logIn } = this.props;
+
+        return (
+            <button onClick={logIn} id={'log-in-btn'}>
+                Log in
+            </button>
+        );
+    }
 }
 
-function ProfileButton() {
-    return (
-        <button id={'profile-btn'}>
-            <img
-                src={
-                    'https://lh3.googleusercontent.com/ogw/AOh-ky1_8Jx5lw1cJqqWW7GwA5tV7ARfl_Xo6vN7YLXx=s32-c-mo'
-                }
-                alt={'User profile'}
-                id={'profile-pic-lg'}
-            />
-            <CaretIcon id={'caret-icon'} />
-        </button>
-    );
-}
+class ProfileButton extends React.Component {
+    render() {
+        const { userPhotoURL } = this.props;
 
-function ProfileTooltip() {
-    return (
-        <div id={'profile-tooltip'}>
-            <div className={'profile-tooltip-item'} id={'user-email'}>
+        return (
+            <button id={'profile-btn'}>
                 <img
-                    src={
-                        'https://lh3.googleusercontent.com/ogw/AOh-ky1_8Jx5lw1cJqqWW7GwA5tV7ARfl_Xo6vN7YLXx=s32-c-mo'
-                    }
-                    alt={'User email'}
-                    id={'profile-pic-sm'}
+                    src={userPhotoURL}
+                    alt={'User profile'}
+                    id={'profile-pic-lg'}
+                    referrerPolicy={'no-referrer'}
                 />
-                <span>jonathan.yuan@uwaterloo.ca</span>
+                <CaretIcon id={'caret-icon'} />
+            </button>
+        );
+    }
+}
+
+class ProfileTooltip extends React.Component {
+    render() {
+        const { userEmail, userPhotoURL, logOut } = this.props;
+
+        return (
+            <div id={'profile-tooltip'}>
+                <div className={'profile-tooltip-item'} id={'user-email'}>
+                    <img
+                        src={userPhotoURL}
+                        alt={'User email'}
+                        id={'profile-pic-sm'}
+                        referrerPolicy={'no-referrer'}
+                    />
+                    <span>{userEmail}</span>
+                </div>
+                <div className={'profile-tooltip-item'} id={'save-btn'}>
+                    <SaveIcon id={'save-icon'} />
+                    <span>Save to cloud</span>
+                </div>
+                <div
+                    onClick={logOut}
+                    className={'profile-tooltip-item'}
+                    id={'logout-btn'}
+                >
+                    <LogoutIcon id={'logout-icon'} />
+                    <span>Log out</span>
+                </div>
             </div>
-            <div className={'profile-tooltip-item'} id={'save-btn'}>
-                <SaveIcon id={'save-icon'} />
-                <span>Save to cloud</span>
-            </div>
-            <div className={'profile-tooltip-item'} id={'logout-btn'}>
-                <LogoutIcon id={'logout-icon'} />
-                <span>Log out</span>
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
 class App extends React.Component {
@@ -91,10 +121,28 @@ class App extends React.Component {
         };
 
         this.state = {
-            activeTab: 'Personal'
+            activeTab: 'Personal',
+            isLoggedIn: false,
+            profileTooltipState: 'inactive'
         };
 
+        this.populateUserState = this.populateUserState.bind(this);
         this.tabHandler = this.tabHandler.bind(this);
+
+        const app = initializeApp(getFirebaseConfig());
+        initFirebaseAuth(this.populateUserState);
+    }
+
+    populateUserState(user) {
+        if (user) {
+            this.setState({
+                isLoggedIn: true
+            });
+        } else {
+            this.setState({
+                isLoggedIn: false
+            });
+        }
     }
 
     tabHandler(e) {
@@ -111,7 +159,7 @@ class App extends React.Component {
             defaultSkillsForm
         } = this.defaultForms;
 
-        const { activeTab } = this.state;
+        const { activeTab, isLoggedIn } = this.state;
 
         let page;
         // eslint-disable-next-line default-case
@@ -131,8 +179,18 @@ class App extends React.Component {
         }
         return (
             <>
-                <ProfileButton />
-                <ProfileTooltip />
+                {isLoggedIn ? (
+                    <>
+                        <ProfileButton userPhotoURL={getUserPhotoURL()} />
+                        <ProfileTooltip
+                            userEmail={getUserEmail()}
+                            userPhotoURL={getUserPhotoURL()}
+                            logOut={signOutUser}
+                        />
+                    </>
+                ) : (
+                    <LogInButton logIn={signInUser} />
+                )}
                 <Nav activeTab={activeTab} tabHandler={this.tabHandler} />
                 {page}
             </>

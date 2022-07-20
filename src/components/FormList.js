@@ -1,13 +1,12 @@
 import React from 'react';
 import uniqid from 'uniqid';
+
 import AddIcon from './AddIcon';
 import DeleteIcon from './DeleteIcon';
+
 import '../styles/FormList.css';
 
 class FormList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         const {
             form,

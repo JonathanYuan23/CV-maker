@@ -1,9 +1,6 @@
 import React from 'react';
 
 class DeleteIcon extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         const { deleteHandler } = this.props;
         return (

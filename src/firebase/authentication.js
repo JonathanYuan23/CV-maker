@@ -9,6 +9,9 @@ import {
 async function signInUser() {
     // Sign in Firebase using popup auth and Google as the identity provider.
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+        prompt: 'select_account'
+    });
     await signInWithPopup(getAuth(), provider);
 }
 
@@ -17,15 +20,23 @@ function signOutUser() {
 }
 
 // Initialize firebase auth
-function initFirebaseAuth() {
+function initFirebaseAuth(callback) {
     // Listen to auth state changes.
-    onAuthStateChanged(getAuth(), user => {
-        if (user) {
-            console.log(user.displayName);
-        } else {
-            console.log('Active user has signed out.');
-        }
-    });
+    onAuthStateChanged(getAuth(), callback);
 }
 
-export { signInUser, signOutUser, initFirebaseAuth };
+function getUserPhotoURL() {
+    return getAuth().currentUser.photoURL;
+}
+
+function getUserEmail() {
+    return getAuth().currentUser.email;
+}
+
+export {
+    signInUser,
+    signOutUser,
+    initFirebaseAuth,
+    getUserPhotoURL,
+    getUserEmail
+};

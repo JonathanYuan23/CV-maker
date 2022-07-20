@@ -1,12 +1,11 @@
 import React from 'react';
+
 import TabLink from './TabLink';
 import generatePDF from '../utils/generatePDF';
+
 import '../styles/Nav.css';
 
 class Nav extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
         const { tabHandler, activeTab } = this.props;
         return (

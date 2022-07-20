@@ -1,6 +1,9 @@
 import React from 'react';
+import uniqid from 'uniqid';
+
 import InputContainer from './InputContainer';
 import FormList from './FormList';
+
 import { getForms, setForms } from '../utils/localStorage';
 import {
     handleChange,
@@ -10,10 +13,8 @@ import {
     deleteForm,
     changeForm
 } from '../utils/callbacks';
-import uniqid from 'uniqid';
 
 class WorkSection extends React.Component {
-    // eslint-disable-next-line no-useless-constructor
     constructor(props) {
         super(props);
 
