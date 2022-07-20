@@ -97,7 +97,8 @@ code {
     border-radius: 50%;
 }
 
-#profile-btn:hover {
+#profile-btn:hover,
+#profile-btn.active {
     background-color: var(--c-tertiary-lighter);
 }
 
@@ -111,7 +112,8 @@ code {
     transition: all 150ms ease-in-out;
 }
 
-#profile-btn:hover #caret-icon {
+#profile-btn:hover #caret-icon,
+#profile-btn.active #caret-icon {
     transform: translate(0, 4px);
 }
 

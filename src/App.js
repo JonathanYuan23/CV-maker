@@ -5,6 +5,8 @@ import WorkSection from './components/WorkSection';
 import EducationSection from './components/EducationSection';
 import SkillsSection from './components/SkillsSection';
 
+import defaultForms from './utils/defaultForms';
+
 import { ReactComponent as CaretIcon } from './icons/Caret down.svg';
 import { ReactComponent as SaveIcon } from './icons/Save.svg';
 import { ReactComponent as LogoutIcon } from './icons/Logout.svg';
@@ -23,11 +25,21 @@ import './styles/Reset.css';
 import './styles/App.css';
 
 class LogInButton extends React.Component {
-    render() {
-        const { logIn } = this.props;
+    constructor(props) {
+        super(props);
+        this.clickHandler = this.clickHandler.bind(this);
+    }
 
+    clickHandler(e) {
+        e.stopPropagation();
+
+        const { logIn } = this.props;
+        logIn();
+    }
+
+    render() {
         return (
-            <button onClick={logIn} id={'log-in-btn'}>
+            <button onClick={this.clickHandler} id={'log-in-btn'}>
                 Log in
             </button>
         );
@@ -35,11 +47,29 @@ class LogInButton extends React.Component {
 }
 
 class ProfileButton extends React.Component {
+    constructor(props) {
+        super(props);
+        this.clickHandler = this.clickHandler.bind(this);
+    }
+
+    clickHandler(e) {
+        e.stopPropagation();
+
+        const { changeTooltipState } = this.props;
+        changeTooltipState();
+    }
+
     render() {
-        const { userPhotoURL } = this.props;
+        const { userPhotoURL, tooltipState } = this.props;
 
         return (
-            <button id={'profile-btn'}>
+            <button
+                id={'profile-btn'}
+                onClick={this.clickHandler}
+                className={`${
+                    tooltipState === 'active' ? 'active' : 'inactive'
+                }`}
+            >
                 <img
                     src={userPhotoURL}
                     alt={'User profile'}
@@ -53,11 +83,30 @@ class ProfileButton extends React.Component {
 }
 
 class ProfileTooltip extends React.Component {
+    constructor(props) {
+        super(props);
+        this.logOutHandler = this.logOutHandler.bind(this);
+    }
+
+    clickHandler(e) {
+        e.stopPropagation();
+    }
+
+    logOutHandler() {
+        const { logOut, changeTooltipState } = this.props;
+        changeTooltipState();
+        logOut();
+    }
+
     render() {
-        const { userEmail, userPhotoURL, logOut } = this.props;
+        const { userEmail, userPhotoURL, tooltipState } = this.props;
+
+        if (tooltipState === 'inactive') {
+            return null;
+        }
 
         return (
-            <div id={'profile-tooltip'}>
+            <div id={'profile-tooltip'} onClick={this.clickHandler}>
                 <div className={'profile-tooltip-item'} id={'user-email'}>
                     <img
                         src={userPhotoURL}
@@ -72,7 +121,7 @@ class ProfileTooltip extends React.Component {
                     <span>Save to cloud</span>
                 </div>
                 <div
-                    onClick={logOut}
+                    onClick={this.logOutHandler}
                     className={'profile-tooltip-item'}
                     id={'logout-btn'}
                 >
@@ -88,38 +137,6 @@ class App extends React.Component {
     constructor() {
         super();
 
-        this.defaultForms = {
-            defaultPersonalForm: {
-                name: 'Dan Abramov',
-                profession: 'Software Engineer',
-                email: 'xyz@gmail.com',
-                'phone number': '1-234-567-890',
-                website: 'github.com/xyz'
-            },
-            defaultWorkForm: {
-                title: 'Software Engineer',
-                company: 'Facebook',
-                location: 'San Francisco',
-                'start date': '2019',
-                'end date': 'Present',
-                description:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor.'
-            },
-            defaultEducationForm: {
-                degree: 'BSc. Honours CS',
-                institution: 'UWaterloo',
-                location: 'Waterloo, Ontario',
-                'start date': '2014',
-                'end date': '2019',
-                description:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor.'
-            },
-            defaultSkillsForm: {
-                title: 'Languages',
-                description: 'Java, C++, Python'
-            }
-        };
-
         this.state = {
             activeTab: 'Personal',
             isLoggedIn: false,
@@ -127,6 +144,8 @@ class App extends React.Component {
         };
 
         this.populateUserState = this.populateUserState.bind(this);
+        this.changeTooltipState = this.changeTooltipState.bind(this);
+        this.clickHandler = this.clickHandler.bind(this);
         this.tabHandler = this.tabHandler.bind(this);
 
         const app = initializeApp(getFirebaseConfig());
@@ -145,10 +164,33 @@ class App extends React.Component {
         }
     }
 
+    changeTooltipState() {
+        this.setState(prevState => ({
+            profileTooltipState:
+                prevState.profileTooltipState === 'active'
+                    ? 'inactive'
+                    : 'active'
+        }));
+    }
+
+    clickHandler() {
+        if (this.state.profileTooltipState === 'active') {
+            this.changeTooltipState();
+        }
+    }
+
     tabHandler(e) {
         this.setState({
             activeTab: e.currentTarget.textContent
         });
+    }
+
+    componentDidMount() {
+        document.addEventListener('click', this.clickHandler);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', this.clickHandler);
     }
 
     render() {
@@ -157,9 +199,9 @@ class App extends React.Component {
             defaultWorkForm,
             defaultEducationForm,
             defaultSkillsForm
-        } = this.defaultForms;
+        } = defaultForms;
 
-        const { activeTab, isLoggedIn } = this.state;
+        const { activeTab, isLoggedIn, profileTooltipState } = this.state;
 
         let page;
         // eslint-disable-next-line default-case
@@ -181,11 +223,17 @@ class App extends React.Component {
             <>
                 {isLoggedIn ? (
                     <>
-                        <ProfileButton userPhotoURL={getUserPhotoURL()} />
+                        <ProfileButton
+                            userPhotoURL={getUserPhotoURL()}
+                            changeTooltipState={this.changeTooltipState}
+                            tooltipState={profileTooltipState}
+                        />
                         <ProfileTooltip
                             userEmail={getUserEmail()}
                             userPhotoURL={getUserPhotoURL()}
                             logOut={signOutUser}
+                            changeTooltipState={this.changeTooltipState}
+                            tooltipState={profileTooltipState}
                         />
                     </>
                 ) : (
