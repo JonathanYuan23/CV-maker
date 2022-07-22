@@ -1,18 +1,18 @@
 import React from 'react';
 import InputContainer from './InputContainer';
-import { getForms, setForms } from '../utils/localStorage';
+import { getForms, setForms } from '../utils/clientStorage';
 
 class PersonalSection extends React.Component {
     constructor(props) {
         super(props);
 
         this.storageKey = 'Personal';
-        const { defaultForm } = this.props;
+        const { startingForm } = this.props;
         const stateStore = getForms(this.storageKey);
 
         // if this is the first time the form is rendered, render the default form
         if (!stateStore) {
-            let form = Object.assign({}, defaultForm);
+            let form = Object.assign({}, startingForm);
 
             this.state = {
                 form: form

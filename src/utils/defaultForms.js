@@ -1,12 +1,12 @@
 const defaultForms = {
-    defaultPersonalForm: {
+    personal: {
         name: 'Dan Abramov',
         profession: 'Software Engineer',
         email: 'xyz@gmail.com',
         'phone number': '1-234-567-890',
         website: 'github.com/xyz'
     },
-    defaultWorkForm: {
+    work: {
         title: 'Software Engineer',
         company: 'Facebook',
         location: 'San Francisco',
@@ -15,7 +15,7 @@ const defaultForms = {
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor.'
     },
-    defaultEducationForm: {
+    education: {
         degree: 'BSc. Honours CS',
         institution: 'UWaterloo',
         location: 'Waterloo, Ontario',
@@ -24,7 +24,7 @@ const defaultForms = {
         description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis porttitor.'
     },
-    defaultSkillsForm: {
+    skills: {
         title: 'Languages',
         description: 'Java, C++, Python'
     }

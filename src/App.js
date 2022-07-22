@@ -6,12 +6,13 @@ import EducationSection from './components/EducationSection';
 import SkillsSection from './components/SkillsSection';
 
 import defaultForms from './utils/defaultForms';
+import { getAllForms } from './utils/clientStorage';
 
 import { ReactComponent as CaretIcon } from './icons/Caret down.svg';
 import { ReactComponent as SaveIcon } from './icons/Save.svg';
 import { ReactComponent as LogoutIcon } from './icons/Logout.svg';
 
-import { getFirebaseConfig } from './firebase/firebase-config';
+import { getFirebaseConfig } from './firebase/firebaseConfig';
 import { initializeApp } from 'firebase/app';
 import {
     signInUser,
@@ -22,6 +23,8 @@ import {
     getUserEmail,
     getUID
 } from './firebase/authentication';
+import { getFirestore } from 'firebase/firestore';
+import { getUserDoc, setUserDoc } from './firebase/firestore';
 
 import './styles/Reset.css';
 import './styles/App.css';
@@ -67,10 +70,10 @@ class ProfileButton extends React.Component {
         return (
             <button
                 id={'profile-btn'}
-                onClick={this.clickHandler}
                 className={`${
                     tooltipState === 'active' ? 'active' : 'inactive'
                 }`}
+                onClick={this.clickHandler}
             >
                 <img
                     src={userPhotoURL}
@@ -87,11 +90,18 @@ class ProfileButton extends React.Component {
 class ProfileTooltip extends React.Component {
     constructor(props) {
         super(props);
+        this.saveHandler = this.saveHandler.bind(this);
         this.logOutHandler = this.logOutHandler.bind(this);
     }
 
     clickHandler(e) {
         e.stopPropagation();
+    }
+
+    saveHandler() {
+        const { saveToFirestore, changeTooltipState } = this.props;
+        changeTooltipState();
+        saveToFirestore();
     }
 
     logOutHandler() {
@@ -118,14 +128,18 @@ class ProfileTooltip extends React.Component {
                     />
                     <span>{userEmail}</span>
                 </div>
-                <div className={'profile-tooltip-item'} id={'save-btn'}>
+                <div
+                    className={'profile-tooltip-item'}
+                    id={'save-btn'}
+                    onClick={this.saveHandler}
+                >
                     <SaveIcon id={'save-icon'} />
                     <span>Save to cloud</span>
                 </div>
                 <div
-                    onClick={this.logOutHandler}
                     className={'profile-tooltip-item'}
                     id={'logout-btn'}
+                    onClick={this.logOutHandler}
                 >
                     <LogoutIcon id={'logout-icon'} />
                     <span>Log out</span>
@@ -139,6 +153,8 @@ class App extends React.Component {
     constructor() {
         super();
 
+        this.startingForms = defaultForms;
+
         this.state = {
             activeTab: 'Personal',
             isLoggedIn: false,
@@ -146,14 +162,24 @@ class App extends React.Component {
         };
 
         this.populateUserData = this.populateUserData.bind(this);
+        this.saveToFirestore = this.saveToFirestore.bind(this);
         this.changeTooltipState = this.changeTooltipState.bind(this);
         this.clickHandler = this.clickHandler.bind(this);
         this.tabHandler = this.tabHandler.bind(this);
+    }
 
+    componentDidMount() {
         // firebase setup
-        initializeApp(getFirebaseConfig());
+        this.app = initializeApp(getFirebaseConfig());
+        this.db = getFirestore(this.app);
         disableAuthPersistence();
         registerAuthListener(this.populateUserData);
+
+        document.addEventListener('click', this.clickHandler);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('click', this.clickHandler);
     }
 
     populateUserData(user) {
@@ -161,11 +187,24 @@ class App extends React.Component {
             this.setState({
                 isLoggedIn: true
             });
+
+            getUserDoc(this.db, getUID()).then(data => {
+                if (data) {
+                    this.startingForms = data;
+                } else {
+                    setUserDoc(this.db, getUID(), defaultForms);
+                }
+            });
         } else {
             this.setState({
                 isLoggedIn: false
             });
+            this.startingForms = defaultForms;
         }
+    }
+
+    saveToFirestore() {
+        setUserDoc(this.db, getUID(), getAllForms());
     }
 
     changeTooltipState() {
@@ -189,21 +228,8 @@ class App extends React.Component {
         });
     }
 
-    componentDidMount() {
-        document.addEventListener('click', this.clickHandler);
-    }
-
-    componentWillUnmount() {
-        document.removeEventListener('click', this.clickHandler);
-    }
-
     render() {
-        const {
-            defaultPersonalForm,
-            defaultWorkForm,
-            defaultEducationForm,
-            defaultSkillsForm
-        } = defaultForms;
+        const { personal, work, education, skills } = this.startingForms;
 
         const { activeTab, isLoggedIn, profileTooltipState } = this.state;
 
@@ -211,16 +237,16 @@ class App extends React.Component {
         // eslint-disable-next-line default-case
         switch (activeTab) {
             case 'Personal':
-                page = <PersonalSection defaultForm={defaultPersonalForm} />;
+                page = <PersonalSection startingForm={personal} />;
                 break;
             case 'Work':
-                page = <WorkSection defaultForm={defaultWorkForm} />;
+                page = <WorkSection startingForm={work} />;
                 break;
             case 'Education':
-                page = <EducationSection defaultForm={defaultEducationForm} />;
+                page = <EducationSection startingForm={education} />;
                 break;
             case 'Skills':
-                page = <SkillsSection defaultForm={defaultSkillsForm} />;
+                page = <SkillsSection startingForm={skills} />;
                 break;
         }
         return (
@@ -235,6 +261,7 @@ class App extends React.Component {
                         <ProfileTooltip
                             userEmail={getUserEmail()}
                             userPhotoURL={getUserPhotoURL()}
+                            saveToFirestore={this.saveToFirestore}
                             logOut={signOutUser}
                             changeTooltipState={this.changeTooltipState}
                             tooltipState={profileTooltipState}

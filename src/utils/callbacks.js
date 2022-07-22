@@ -1,4 +1,4 @@
-import { setForms } from '../utils/localStorage';
+import { setForms } from './clientStorage';
 import uniqid from 'uniqid';
 
 function handleChange(formField, value) {
@@ -32,10 +32,10 @@ function hideList() {
 }
 
 function addForm() {
-    const { defaultForm } = this.props;
+    const { startingForm } = this.props;
     const { forms } = this.state;
 
-    let newForm = Object.assign({}, defaultForm, { id: uniqid() });
+    let newForm = Object.assign({}, startingForm, { id: uniqid() });
     let newForms = forms;
     newForms.unshift(newForm);
 
@@ -54,7 +54,7 @@ function addForm() {
 function deleteForm(e) {
     e.stopPropagation();
     const id = e.currentTarget.parentNode.getAttribute('data-key');
-    const { defaultForm } = this.props;
+    const { startingForm } = this.props;
     const { form, forms } = this.state;
 
     // remove selected form, add default if array is then empty
@@ -62,7 +62,7 @@ function deleteForm(e) {
     const newForms = forms.filter(form => form['id'] !== id);
 
     if (!newForms.length) {
-        newForm = Object.assign({}, defaultForm, { id: uniqid() });
+        newForm = Object.assign({}, startingForm, { id: uniqid() });
         newForms.unshift(newForm);
     } else if (form['id'] === id) {
         newForm = newForms[0];

@@ -4,7 +4,7 @@ import uniqid from 'uniqid';
 import InputContainer from './InputContainer';
 import FormList from './FormList';
 
-import { getForms, setForms } from '../utils/localStorage';
+import { getForms, setForms } from '../utils/clientStorage';
 import {
     handleChange,
     showList,
@@ -19,12 +19,12 @@ class SkillsSection extends React.Component {
         super(props);
 
         this.storageKey = 'Skills';
-        const { defaultForm } = this.props;
+        const { startingForm } = this.props;
         const stateStore = getForms(this.storageKey);
 
         // if this is the first time the form is rendered, render the default form
         if (!stateStore) {
-            let form = Object.assign({}, defaultForm, { id: uniqid() });
+            let form = Object.assign({}, startingForm, { id: uniqid() });
 
             this.state = {
                 forms: [form],
