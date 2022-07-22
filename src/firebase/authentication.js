@@ -3,26 +3,31 @@ import {
     onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
-    signOut
+    signOut,
+    setPersistence,
+    inMemoryPersistence
 } from 'firebase/auth';
 
-async function signInUser() {
+function signInUser() {
     // Sign in Firebase using popup auth and Google as the identity provider.
     const provider = new GoogleAuthProvider();
     provider.setCustomParameters({
         prompt: 'select_account'
     });
-    await signInWithPopup(getAuth(), provider);
+    signInWithPopup(getAuth(), provider);
 }
 
 function signOutUser() {
     signOut(getAuth());
 }
 
-// Initialize firebase auth
-function initFirebaseAuth(callback) {
+function registerAuthListener(callback) {
     // Listen to auth state changes.
     onAuthStateChanged(getAuth(), callback);
+}
+
+function disableAuthPersistence() {
+    setPersistence(getAuth(), inMemoryPersistence);
 }
 
 function getUserPhotoURL() {
@@ -33,10 +38,16 @@ function getUserEmail() {
     return getAuth().currentUser.email;
 }
 
+function getUID() {
+    return getAuth().currentUser.uid;
+}
+
 export {
     signInUser,
     signOutUser,
-    initFirebaseAuth,
+    registerAuthListener,
+    disableAuthPersistence,
     getUserPhotoURL,
-    getUserEmail
+    getUserEmail,
+    getUID
 };

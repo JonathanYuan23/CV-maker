@@ -16,9 +16,11 @@ import { initializeApp } from 'firebase/app';
 import {
     signInUser,
     signOutUser,
-    initFirebaseAuth,
+    registerAuthListener,
+    disableAuthPersistence,
     getUserPhotoURL,
-    getUserEmail
+    getUserEmail,
+    getUID
 } from './firebase/authentication';
 
 import './styles/Reset.css';
@@ -143,16 +145,18 @@ class App extends React.Component {
             profileTooltipState: 'inactive'
         };
 
-        this.populateUserState = this.populateUserState.bind(this);
+        this.populateUserData = this.populateUserData.bind(this);
         this.changeTooltipState = this.changeTooltipState.bind(this);
         this.clickHandler = this.clickHandler.bind(this);
         this.tabHandler = this.tabHandler.bind(this);
 
-        const app = initializeApp(getFirebaseConfig());
-        initFirebaseAuth(this.populateUserState);
+        // firebase setup
+        initializeApp(getFirebaseConfig());
+        disableAuthPersistence();
+        registerAuthListener(this.populateUserData);
     }
 
-    populateUserState(user) {
+    populateUserData(user) {
         if (user) {
             this.setState({
                 isLoggedIn: true
