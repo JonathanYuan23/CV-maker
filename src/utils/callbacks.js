@@ -14,7 +14,7 @@ function handleChange(formField, value) {
             form: form
         },
         () => {
-            setForms(this.storageKey, this.state);
+            setForms(this.storageKey, this.state.forms);
         }
     );
 }
@@ -46,7 +46,7 @@ function addForm() {
             formListState: 'inactive'
         },
         () => {
-            setForms(this.storageKey, this.state);
+            setForms(this.storageKey, this.state.forms);
         }
     );
 }
@@ -77,7 +77,7 @@ function deleteForm(e) {
             formListState: 'inactive'
         },
         () => {
-            setForms(this.storageKey, this.state);
+            setForms(this.storageKey, this.state.forms);
         }
     );
 }
@@ -97,7 +97,7 @@ function changeForm(e) {
             formListState: 'inactive'
         },
         () => {
-            setForms(this.storageKey, this.state);
+            setForms(this.storageKey, this.state.forms);
         }
     );
 }

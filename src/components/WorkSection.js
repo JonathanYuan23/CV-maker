@@ -32,9 +32,13 @@ class WorkSection extends React.Component {
                 formListState: 'inactive'
             };
 
-            setForms(this.storageKey, this.state);
+            setForms(this.storageKey, this.state.forms);
         } else {
-            this.state = stateStore;
+            this.state = {
+                forms: stateStore,
+                form: stateStore[0],
+                formListState: 'inactive'
+            };
         }
 
         // bind event handlers

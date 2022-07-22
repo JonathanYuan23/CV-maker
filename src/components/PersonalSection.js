@@ -18,9 +18,11 @@ class PersonalSection extends React.Component {
                 form: form
             };
 
-            setForms(this.storageKey, this.state);
+            setForms(this.storageKey, this.state.form);
         } else {
-            this.state = stateStore;
+            this.state = {
+                form: stateStore
+            };
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,7 +37,7 @@ class PersonalSection extends React.Component {
             form: form
         });
 
-        setForms(this.storageKey, this.state);
+        setForms(this.storageKey, this.state.form);
     }
 
     render() {

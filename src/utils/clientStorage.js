@@ -7,16 +7,16 @@ const setForms = (sectionName, sectionForms) => {
 };
 
 const getAllForms = () => {
-    let personal = JSON.parse(localStorage.getItem('Personal')).form;
+    let personal = JSON.parse(localStorage.getItem('Personal'));
 
     let work = JSON.parse(localStorage.getItem('Work'));
-    work = work ? work.forms : [];
+    work = work || [];
 
     let education = JSON.parse(localStorage.getItem('Education'));
-    education = education ? education.forms : [];
+    education = education || [];
 
     let skills = JSON.parse(localStorage.getItem('Skills'));
-    skills = skills ? skills.forms : [];
+    skills = skills || [];
 
     return {
         personal,
