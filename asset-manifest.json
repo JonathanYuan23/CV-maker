@@ -1,16 +1,19 @@
 {
   "files": {
-    "main.css": "/CV-maker/static/css/main.e274ba46.css",
-    "main.js": "/CV-maker/static/js/main.afb4bc8e.js",
+    "main.css": "/CV-maker/static/css/main.d3f7804e.css",
+    "main.js": "/CV-maker/static/js/main.80a3d98d.js",
     "static/media/Raleway-Bold.ttf": "/CV-maker/static/media/Raleway-Bold.d1a96e2aa6257c864d4d.ttf",
     "static/media/Lato-Regular.ttf": "/CV-maker/static/media/Lato-Regular.9d883d540ee2b4de8024.ttf",
     "static/media/Lato-Bold.ttf": "/CV-maker/static/media/Lato-Bold.636be8de934918e38ed9.ttf",
+    "static/media/Logout.svg": "/CV-maker/static/media/Logout.d996f44d90dd580bd7ab39e228e973a3.svg",
+    "static/media/Save.svg": "/CV-maker/static/media/Save.16f643cf0f934a5712483143bb09f5ad.svg",
     "index.html": "/CV-maker/index.html",
-    "main.e274ba46.css.map": "/CV-maker/static/css/main.e274ba46.css.map",
-    "main.afb4bc8e.js.map": "/CV-maker/static/js/main.afb4bc8e.js.map"
+    "static/media/Caret down.svg": "/CV-maker/static/media/Caret down.d8b7a3b9a1001dba93cba9f3158ec96c.svg",
+    "main.d3f7804e.css.map": "/CV-maker/static/css/main.d3f7804e.css.map",
+    "main.80a3d98d.js.map": "/CV-maker/static/js/main.80a3d98d.js.map"
   },
   "entrypoints": [
-    "static/css/main.e274ba46.css",
-    "static/js/main.afb4bc8e.js"
+    "static/css/main.d3f7804e.css",
+    "static/js/main.80a3d98d.js"
   ]
 }
