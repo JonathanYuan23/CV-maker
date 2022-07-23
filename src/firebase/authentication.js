@@ -5,7 +5,7 @@ import {
     signInWithPopup,
     signOut,
     setPersistence,
-    inMemoryPersistence
+    browserSessionPersistence
 } from 'firebase/auth';
 
 function signInUser() {
@@ -26,8 +26,8 @@ function registerAuthListener(callback) {
     onAuthStateChanged(getAuth(), callback);
 }
 
-function disableAuthPersistence() {
-    setPersistence(getAuth(), inMemoryPersistence);
+function limitAuthPersistence() {
+    setPersistence(getAuth(), browserSessionPersistence);
 }
 
 function getUserPhotoURL() {
@@ -46,7 +46,7 @@ export {
     signInUser,
     signOutUser,
     registerAuthListener,
-    disableAuthPersistence,
+    limitAuthPersistence,
     getUserPhotoURL,
     getUserEmail,
     getUID

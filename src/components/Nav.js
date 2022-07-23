@@ -6,6 +6,16 @@ import generatePDF from '../utils/generatePDF';
 import '../styles/Nav.css';
 
 class Nav extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.clickHandler = this.clickHandler.bind(this);
+    }
+
+    clickHandler() {
+        generatePDF(this.props.isLoggedIn);
+    }
+
     render() {
         const { tabHandler, activeTab } = this.props;
         return (
@@ -32,7 +42,7 @@ class Nav extends React.Component {
                         linkText={'Skills'}
                     />
                 </ul>
-                <button id={'generate-pdf-btn'} onClick={generatePDF}>
+                <button id={'generate-pdf-btn'} onClick={this.clickHandler}>
                     Generate pdf
                 </button>
             </nav>

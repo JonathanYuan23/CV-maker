@@ -1,22 +1,36 @@
-const getForms = sectionName => {
-    return JSON.parse(localStorage.getItem(sectionName));
+const initClientStorage = (storageKey, data, id, isLoggedIn) => {
+    if (!isLoggedIn && getForms(storageKey, isLoggedIn)) {
+        return;
+    }
+
+    const form = Object.assign({}, data, { id: id });
+
+    if (storageKey === 'Personal') {
+        setForms(storageKey, form, isLoggedIn);
+    } else {
+        setForms(storageKey, [form], isLoggedIn);
+    }
 };
 
-const setForms = (sectionName, sectionForms) => {
-    localStorage.setItem(sectionName, JSON.stringify(sectionForms));
+const getForms = (storageKey, isLoggedIn) => {
+    const forms = isLoggedIn
+        ? sessionStorage.getItem(storageKey)
+        : localStorage.getItem(storageKey);
+
+    return JSON.parse(forms);
 };
 
-const getAllForms = () => {
-    let personal = JSON.parse(localStorage.getItem('Personal'));
+const setForms = (storageKey, data, isLoggedIn) => {
+    isLoggedIn
+        ? sessionStorage.setItem(storageKey, JSON.stringify(data))
+        : localStorage.setItem(storageKey, JSON.stringify(data));
+};
 
-    let work = JSON.parse(localStorage.getItem('Work'));
-    work = work || [];
-
-    let education = JSON.parse(localStorage.getItem('Education'));
-    education = education || [];
-
-    let skills = JSON.parse(localStorage.getItem('Skills'));
-    skills = skills || [];
+const getAllForms = isLoggedIn => {
+    let personal = getForms('Personal', isLoggedIn);
+    let work = getForms('Work', isLoggedIn);
+    let education = getForms('Education', isLoggedIn);
+    let skills = getForms('Skills', isLoggedIn);
 
     return {
         personal,
@@ -26,4 +40,4 @@ const getAllForms = () => {
     };
 };
 
-export { getForms, setForms, getAllForms };
+export { initClientStorage, getForms, setForms, getAllForms };

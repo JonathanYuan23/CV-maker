@@ -1,4 +1,5 @@
 import React from 'react';
+import { ProfileButton, ProfileTooltip } from './components/Profile';
 import Nav from './components/Nav';
 import PersonalSection from './components/PersonalSection';
 import WorkSection from './components/WorkSection';
@@ -6,11 +7,13 @@ import EducationSection from './components/EducationSection';
 import SkillsSection from './components/SkillsSection';
 
 import defaultForms from './utils/defaultForms';
-import { getAllForms } from './utils/clientStorage';
+import {
+    initClientStorage,
+    setForms,
+    getAllForms
+} from './utils/clientStorage';
 
-import { ReactComponent as CaretIcon } from './icons/Caret down.svg';
-import { ReactComponent as SaveIcon } from './icons/Save.svg';
-import { ReactComponent as LogoutIcon } from './icons/Logout.svg';
+import uniqid from 'uniqid';
 
 import { getFirebaseConfig } from './firebase/firebaseConfig';
 import { initializeApp } from 'firebase/app';
@@ -18,7 +21,7 @@ import {
     signInUser,
     signOutUser,
     registerAuthListener,
-    disableAuthPersistence,
+    limitAuthPersistence,
     getUserPhotoURL,
     getUserEmail,
     getUID
@@ -51,109 +54,16 @@ class LogInButton extends React.Component {
     }
 }
 
-class ProfileButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.clickHandler = this.clickHandler.bind(this);
-    }
-
-    clickHandler(e) {
-        e.stopPropagation();
-
-        const { changeTooltipState } = this.props;
-        changeTooltipState();
-    }
-
-    render() {
-        const { userPhotoURL, tooltipState } = this.props;
-
-        return (
-            <button
-                id={'profile-btn'}
-                className={`${
-                    tooltipState === 'active' ? 'active' : 'inactive'
-                }`}
-                onClick={this.clickHandler}
-            >
-                <img
-                    src={userPhotoURL}
-                    alt={'User profile'}
-                    id={'profile-pic-lg'}
-                    referrerPolicy={'no-referrer'}
-                />
-                <CaretIcon id={'caret-icon'} />
-            </button>
-        );
-    }
-}
-
-class ProfileTooltip extends React.Component {
-    constructor(props) {
-        super(props);
-        this.saveHandler = this.saveHandler.bind(this);
-        this.logOutHandler = this.logOutHandler.bind(this);
-    }
-
-    clickHandler(e) {
-        e.stopPropagation();
-    }
-
-    saveHandler() {
-        const { saveToFirestore, changeTooltipState } = this.props;
-        changeTooltipState();
-        saveToFirestore();
-    }
-
-    logOutHandler() {
-        const { logOut, changeTooltipState } = this.props;
-        changeTooltipState();
-        logOut();
-    }
-
-    render() {
-        const { userEmail, userPhotoURL, tooltipState } = this.props;
-
-        if (tooltipState === 'inactive') {
-            return null;
-        }
-
-        return (
-            <div id={'profile-tooltip'} onClick={this.clickHandler}>
-                <div className={'profile-tooltip-item'} id={'user-email'}>
-                    <img
-                        src={userPhotoURL}
-                        alt={'User email'}
-                        id={'profile-pic-sm'}
-                        referrerPolicy={'no-referrer'}
-                    />
-                    <span>{userEmail}</span>
-                </div>
-                <div
-                    className={'profile-tooltip-item'}
-                    id={'save-btn'}
-                    onClick={this.saveHandler}
-                >
-                    <SaveIcon id={'save-icon'} />
-                    <span>Save to cloud</span>
-                </div>
-                <div
-                    className={'profile-tooltip-item'}
-                    id={'logout-btn'}
-                    onClick={this.logOutHandler}
-                >
-                    <LogoutIcon id={'logout-icon'} />
-                    <span>Log out</span>
-                </div>
-            </div>
-        );
-    }
-}
-
 class App extends React.Component {
     constructor() {
         super();
 
-        this.startingForms = defaultForms;
+        const { personal, work, education, skills } = defaultForms;
+
+        initClientStorage('Personal', personal, uniqid(), false);
+        initClientStorage('Work', work, uniqid(), false);
+        initClientStorage('Education', education, uniqid(), false);
+        initClientStorage('Skills', skills, uniqid(), false);
 
         this.state = {
             activeTab: 'Personal',
@@ -172,7 +82,7 @@ class App extends React.Component {
         // firebase setup
         this.app = initializeApp(getFirebaseConfig());
         this.db = getFirestore(this.app);
-        disableAuthPersistence();
+        limitAuthPersistence();
         registerAuthListener(this.populateUserData);
 
         document.addEventListener('click', this.clickHandler);
@@ -184,27 +94,41 @@ class App extends React.Component {
 
     populateUserData(user) {
         if (user) {
-            this.setState({
-                isLoggedIn: true
-            });
+            const { personal, work, education, skills } = defaultForms;
 
-            getUserDoc(this.db, getUID()).then(data => {
-                if (data) {
-                    this.startingForms = data;
-                } else {
-                    setUserDoc(this.db, getUID(), defaultForms);
-                }
-            });
+            getUserDoc(this.db, getUID())
+                .then(data => {
+                    if (data) {
+                        setForms('Personal', data['personal'], true);
+                        setForms('Work', data['work'], true);
+                        setForms('Education', data['education'], true);
+                        setForms('Skills', data['skills'], true);
+                    } else {
+                        initClientStorage('Personal', personal, uniqid(), true);
+                        initClientStorage('Work', work, uniqid(), true);
+                        initClientStorage(
+                            'Education',
+                            education,
+                            uniqid(),
+                            true
+                        );
+                        initClientStorage('Skills', skills, uniqid(), true);
+                    }
+                })
+                .then(() => {
+                    this.setState({
+                        isLoggedIn: true
+                    });
+                });
         } else {
             this.setState({
                 isLoggedIn: false
             });
-            this.startingForms = defaultForms;
         }
     }
 
     saveToFirestore() {
-        setUserDoc(this.db, getUID(), getAllForms());
+        setUserDoc(this.db, getUID(), getAllForms(this.state.isLoggedIn));
     }
 
     changeTooltipState() {
@@ -229,24 +153,40 @@ class App extends React.Component {
     }
 
     render() {
-        const { personal, work, education, skills } = this.startingForms;
-
+        const { personal, work, education, skills } = defaultForms;
         const { activeTab, isLoggedIn, profileTooltipState } = this.state;
 
         let page;
         // eslint-disable-next-line default-case
         switch (activeTab) {
             case 'Personal':
-                page = <PersonalSection startingForm={personal} />;
+                page = (
+                    <PersonalSection
+                        defaultForm={personal}
+                        isLoggedIn={isLoggedIn}
+                    />
+                );
                 break;
             case 'Work':
-                page = <WorkSection startingForm={work} />;
+                page = (
+                    <WorkSection defaultForm={work} isLoggedIn={isLoggedIn} />
+                );
                 break;
             case 'Education':
-                page = <EducationSection startingForm={education} />;
+                page = (
+                    <EducationSection
+                        defaultForm={education}
+                        isLoggedIn={isLoggedIn}
+                    />
+                );
                 break;
             case 'Skills':
-                page = <SkillsSection startingForm={skills} />;
+                page = (
+                    <SkillsSection
+                        defaultForm={skills}
+                        isLoggedIn={isLoggedIn}
+                    />
+                );
                 break;
         }
         return (
@@ -270,7 +210,11 @@ class App extends React.Component {
                 ) : (
                     <LogInButton logIn={signInUser} />
                 )}
-                <Nav activeTab={activeTab} tabHandler={this.tabHandler} />
+                <Nav
+                    isLoggedIn={isLoggedIn}
+                    activeTab={activeTab}
+                    tabHandler={this.tabHandler}
+                />
                 {page}
             </>
         );

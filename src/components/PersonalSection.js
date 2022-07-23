@@ -7,23 +7,11 @@ class PersonalSection extends React.Component {
         super(props);
 
         this.storageKey = 'Personal';
-        const { startingForm } = this.props;
-        const stateStore = getForms(this.storageKey);
+        const stateStore = getForms(this.storageKey, this.props.isLoggedIn);
 
-        // if this is the first time the form is rendered, render the default form
-        if (!stateStore) {
-            let form = Object.assign({}, startingForm);
-
-            this.state = {
-                form: form
-            };
-
-            setForms(this.storageKey, this.state.form);
-        } else {
-            this.state = {
-                form: stateStore
-            };
-        }
+        this.state = {
+            form: stateStore
+        };
 
         this.handleChange = this.handleChange.bind(this);
     }
@@ -37,7 +25,16 @@ class PersonalSection extends React.Component {
             form: form
         });
 
-        setForms(this.storageKey, this.state.form);
+        setForms(this.storageKey, this.state.form, this.props.isLoggedIn);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.isLoggedIn !== prevProps.isLoggedIn) {
+            const stateStore = getForms(this.storageKey, this.props.isLoggedIn);
+            this.setState({
+                form: stateStore
+            });
+        }
     }
 
     render() {

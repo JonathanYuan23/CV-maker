@@ -1,10 +1,9 @@
 import React from 'react';
-import uniqid from 'uniqid';
 
 import InputContainer from './InputContainer';
 import FormList from './FormList';
 
-import { getForms, setForms } from '../utils/clientStorage';
+import { getForms } from '../utils/clientStorage';
 import {
     handleChange,
     showList,
@@ -19,27 +18,13 @@ class WorkSection extends React.Component {
         super(props);
 
         this.storageKey = 'Work';
-        const { startingForm } = this.props;
-        const stateStore = getForms(this.storageKey);
+        const stateStore = getForms(this.storageKey, this.props.isLoggedIn);
 
-        // if this is the first time the form is rendered, render the default form
-        if (!stateStore) {
-            let form = Object.assign({}, startingForm, { id: uniqid() });
-
-            this.state = {
-                forms: [form],
-                form: form,
-                formListState: 'inactive'
-            };
-
-            setForms(this.storageKey, this.state.forms);
-        } else {
-            this.state = {
-                forms: stateStore,
-                form: stateStore[0],
-                formListState: 'inactive'
-            };
-        }
+        this.state = {
+            forms: stateStore,
+            form: stateStore[0],
+            formListState: 'inactive'
+        };
 
         // bind event handlers
         this.handleChange = handleChange.bind(this);
@@ -48,6 +33,16 @@ class WorkSection extends React.Component {
         this.addForm = addForm.bind(this);
         this.changeForm = changeForm.bind(this);
         this.deleteForm = deleteForm.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.isLoggedIn !== prevProps.isLoggedIn) {
+            const stateStore = getForms(this.storageKey, this.props.isLoggedIn);
+            this.setState({
+                forms: stateStore,
+                form: stateStore[0]
+            });
+        }
     }
 
     render() {

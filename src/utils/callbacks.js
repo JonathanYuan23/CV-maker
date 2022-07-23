@@ -14,7 +14,7 @@ function handleChange(formField, value) {
             form: form
         },
         () => {
-            setForms(this.storageKey, this.state.forms);
+            setForms(this.storageKey, this.state.forms, this.props.isLoggedIn);
         }
     );
 }
@@ -32,10 +32,10 @@ function hideList() {
 }
 
 function addForm() {
-    const { startingForm } = this.props;
+    const { defaultForm } = this.props;
     const { forms } = this.state;
 
-    let newForm = Object.assign({}, startingForm, { id: uniqid() });
+    let newForm = Object.assign({}, defaultForm, { id: uniqid() });
     let newForms = forms;
     newForms.unshift(newForm);
 
@@ -46,7 +46,7 @@ function addForm() {
             formListState: 'inactive'
         },
         () => {
-            setForms(this.storageKey, this.state.forms);
+            setForms(this.storageKey, this.state.forms, this.props.isLoggedIn);
         }
     );
 }
@@ -54,7 +54,7 @@ function addForm() {
 function deleteForm(e) {
     e.stopPropagation();
     const id = e.currentTarget.parentNode.getAttribute('data-key');
-    const { startingForm } = this.props;
+    const { defaultForm } = this.props;
     const { form, forms } = this.state;
 
     // remove selected form, add default if array is then empty
@@ -62,7 +62,7 @@ function deleteForm(e) {
     const newForms = forms.filter(form => form['id'] !== id);
 
     if (!newForms.length) {
-        newForm = Object.assign({}, startingForm, { id: uniqid() });
+        newForm = Object.assign({}, defaultForm, { id: uniqid() });
         newForms.unshift(newForm);
     } else if (form['id'] === id) {
         newForm = newForms[0];
@@ -77,7 +77,7 @@ function deleteForm(e) {
             formListState: 'inactive'
         },
         () => {
-            setForms(this.storageKey, this.state.forms);
+            setForms(this.storageKey, this.state.forms, this.props.isLoggedIn);
         }
     );
 }
@@ -97,7 +97,7 @@ function changeForm(e) {
             formListState: 'inactive'
         },
         () => {
-            setForms(this.storageKey, this.state.forms);
+            setForms(this.storageKey, this.state.forms, this.props.isLoggedIn);
         }
     );
 }
