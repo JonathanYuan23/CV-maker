@@ -16,4 +16,5 @@ npm start
 ## Future improvements
 
 -   Add preview tab
+-   Make content overflow properly onto next page
 -   Clean up polyfills (webpack 5 is a mess)
